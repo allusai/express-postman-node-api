@@ -9,7 +9,27 @@ module.exports = sequelize.define('track', {
   },
   name: {
     field: 'Name',
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    validate: {
+      notEmpty: {
+        args: true,
+        msg: 'Name is required'
+      }
+    }
+  },
+  milliseconds: {
+  	field: 'Milliseconds',
+  	type: Sequelize.INTEGER,
+  	validate: {
+      isNumeric: true
+    }
+  },
+  unitPrice: {
+  	field: 'UnitPrice',
+  	type: Sequelize.FLOAT,
+  	validate: {
+      isNumeric: true
+    }
   }
 }, {
   timestamps: false

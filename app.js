@@ -67,6 +67,7 @@ app.post('/api/artists', function(request, response) {
       })
     });
   });
+  
 });
 
 app.get('/api/playlists', function(request, response) {
@@ -142,6 +143,35 @@ app.get('/api/albums/:id', function(request, response) {
       response.status(404).send();
     }
   });
+});
+
+app.patch('/api/tracks/:id' , function(request, response) {
+
+	let id = request.body.id;
+	let name = request.body.name;
+	let milliseconds = request.body.milliseconds;
+	let unitPrice = request.body.unitPrice;
+
+
+	//Step 1: Find by PK the record itself that we should be updating
+	let ourRecordThingy = Track.findByPk(id, {
+    include: [Track]
+  }).then((track) => {
+      	track.update({
+ 		 name: name,
+ 		 milliseconds: milliseconds,
+ 		 unitPrice: unitPrice
+	}).then(() => {})
+  });
+  
+  	//Step 2: Update the record
+  //	ourRecordThingy.update({
+ //		 name: name,
+ //		 milliseconds: milliseconds,
+ //		 unitPrice: unitPrice
+	//}).then(() => {})
+  	
+
 });
 
 app.listen(8000);
