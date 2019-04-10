@@ -147,7 +147,9 @@ app.get('/api/albums/:id', function(request, response) {
 
 app.patch('/api/tracks/:id' , function(request, response) {
 
-	let id = request.body.id;
+	request.body
+
+	let id = request.params.id;
 	let name = request.body.name;
 	let milliseconds = request.body.milliseconds;
 	let unitPrice = request.body.unitPrice;
@@ -155,13 +157,35 @@ app.patch('/api/tracks/:id' , function(request, response) {
 
 	//Step 1: Find by PK the record itself that we should be updating
 	let ourRecordThingy = Track.findByPk(id, {
-    include: [Track]
+    // include: [Track]
   }).then((track) => {
-      	track.update({
+  
+  		if(track) {
+        console.log(track);
+      	return track.update({
  		 name: name,
  		 milliseconds: milliseconds,
  		 unitPrice: unitPrice
-	}).then(() => {})
+		}).then((track) => {
+    response.json(track);
+  }, (validation) => {
+    response.status(422).json({
+      errors: validation.errors.map((error) => {
+        return {
+          attribute: error.path,
+          message: error.message
+        };
+      })
+    });
+  });
+		}
+  }).then((track) => {
+  		if(track) {
+  		response.json(track);
+  		}
+  		else {
+  			response.status(404).send();
+  		}
   });
   
   	//Step 2: Update the record
