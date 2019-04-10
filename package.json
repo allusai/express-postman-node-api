@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "test": "git checkout chinook db; forever start app.js; ./node_modules/jest/bin/jest.js __tests__/api/artist-test.js; forever stop app.js;",
-    "start": "node app.js"
+    "test": "git checkout chinook db; forever start app.js; ./node_modules/jest/bin/jest.js __tests__/api/artist-test.js;",
+    "start": "node app.js",
+    "stop": "forever stop app.js;"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
